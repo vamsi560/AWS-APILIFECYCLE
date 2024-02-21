@@ -52,8 +52,17 @@ jobs:
 
           # Run Spectral
           spectral lint --ruleset spectral.yml openapi.yaml
+      - name: Configure AWS CLI
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_KEY }}
+          aws configure set region us-east-1
 
       - name: Run PowerShell script
         run: |
           # Run your PowerShell script
           .\AWS-APILIFECYCLE2.ps1
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
+          AWS_DEFAULT_REGION: us-east-1
