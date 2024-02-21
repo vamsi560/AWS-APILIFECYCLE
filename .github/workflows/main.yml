@@ -27,9 +27,6 @@ jobs:
       - name: Installing Dependencies
         run: |
           Install-Module -Name AWSPowerShell -Force -AllowClobber
-          Import-Module -Name AWSPowerShell
-          Install-Module -Name AWSSDK.CloudWatch -Force -AllowClobber
-          Import-Module -Name AWSSDK.CloudWatch
           npm install -g openapi-to-postmanv2
 
           # Add more commands to install other dependencies specific to your project
@@ -63,6 +60,7 @@ jobs:
       - name: Run PowerShell script
         run: |
           # Run your PowerShell script
+          Import-Module -Name AWSPowerShell
           .\AWS-APILIFECYCLE2.ps1
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
