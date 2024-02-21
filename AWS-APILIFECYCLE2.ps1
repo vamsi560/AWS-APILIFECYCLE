@@ -1,4 +1,4 @@
-﻿# AWS credentials and region
+# AWS credentials and region
 $awsAccessKey = "AKIA4MTWJOP5BEITHBVV"
 $awsSecretKey = "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"
 $awsRegion = "us-east-1"
@@ -26,26 +26,15 @@ $apiKey = $existingApiKey
 $resourceId = $methodResource.id
 
 # Extract HTTP methods from nested properties
-$resourceMethods = $methodResource.resourceMethods.PSObject.Properties | ForEach-Object { $_.Name } -join ', '
+$methodResource = $resourcesResult.items | Where-Object { $_.resourceMethods -ne $null }
 
-# Debugging: Display information about $resourceId and $resourceMethods
-Write-Host "Debug: Resource ID - $resourceId"
-Write-Host "Debug: Resource Methods - $resourceMethods"
-
-# List of HTTP methods for which you want to create integrations
-$httpMethods = @("GET", "POST", "PUT", "DELETE")  # Add or modify the methods as needed
-
-# Loop through each HTTP method
-foreach ($method in $httpMethods) {
-    # Create Integration using the obtained resource-id and a specific HTTP method
-    $createIntegrationCommand = "aws apigateway put-integration --rest-api-id $apiId --resource-id $resourceId --http-method $method --type AWS_PROXY --integration-http-method $method --uri arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/$lambdaFunctionArn/invocations"
-    
-    try {
-        $createIntegrationResult = Invoke-Expression $createIntegrationCommand
-        Write-Host "Integration created successfully for method: $method."
-    } catch {
-        Write-Host "Integration creation failed for method: $method. Error: $_"
-    }
+$integrationHttpMethod = "POST"  # Change this to the specific HTTP method you want to integrate
+$createIntegrationCommand = "aws apigateway put-integration --rest-api-id $apiId --resource-id $resourceId --http-method $integrationHttpMethod --type AWS_PROXY --integration-http-method POST --uri arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/$lambdaFunctionArn/invocations"
+try {
+    $createIntegrationResult = Invoke-Expression $createIntegrationCommand
+    Write-Host "Integration created successfully."
+} catch {
+    Write-Host "Integration creation failed. Error: $_"
 }
 
 # Set the desired stage name
