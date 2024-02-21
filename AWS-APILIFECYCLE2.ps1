@@ -3,9 +3,10 @@ $awsAccessKey = "AKIA4MTWJOP5BEITHBVV"
 $awsSecretKey = "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"
 $awsRegion = "us-east-1"
 $lambdaFunctionArn = "arn:aws:lambda:us-east-1:851725349882:function:dev-portal-DevPortalLambdaFunction-LIKU32SglT3s"
+$oasFilePath = "$env:GITHUB_WORKSPACE\openapi.yaml"
 
 # Import API from OpenAPI definition
-$importApiCommand = "aws apigateway import-rest-api --no-fail-on-warnings --cli-binary-format raw-in-base64-out --body fileb://C:/Users/VMADMIN/POC/petstore.yaml"
+$importApiCommand = "aws apigateway import-rest-api --no-fail-on-warnings --cli-binary-format raw-in-base64-out --body fileb://$env:GITHUB_WORKSPACE/openapi.yaml"
 $importApiResult = Invoke-Expression $importApiCommand | ConvertFrom-Json
 $apiId = $importApiResult.id
 $apiName = $importApiResult.name
