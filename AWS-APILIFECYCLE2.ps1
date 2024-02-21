@@ -6,7 +6,7 @@ $lambdaFunctionArn = "arn:aws:lambda:us-east-1:851725349882:function:dev-portal-
 $oasFilePath = "$env:GITHUB_WORKSPACE\openapi.yaml"
 
 # Import API from OpenAPI definition
-$importApiCommand = "aws apigateway import-rest-api --no-fail-on-warnings --cli-binary-format raw-in-base64-out --body fileb://$env:GITHUB_WORKSPACE/openapi.yaml"
+$importApiCommand = "aws apigateway import-rest-api --no-fail-on-warnings --cli-binary-format raw-in-base64-out --body fileb://openapi.yaml"
 $importApiResult = Invoke-Expression $importApiCommand | ConvertFrom-Json
 $apiId = $importApiResult.id
 $apiName = $importApiResult.name
@@ -16,9 +16,6 @@ $resourcesCommand = "aws apigateway get-resources --rest-api-id $apiId"
 $resourcesResult = Invoke-Expression $resourcesCommand | ConvertFrom-Json
 
 $methodResource = $resourcesResult.items | Where-Object { $_.resourceMethods -ne $null }
-
-# Debugging: Display information about $methodResource
-Write-Host "Debug: Method Resource - $($methodResource | ConvertTo-Json -Depth 5)"
 
 # Use existing API key
 $existingApiKey = "72KjYUm1DZ3vBFBpHy5M73D0QBdYQqfW3qWcAMIG"
