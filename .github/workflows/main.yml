@@ -28,6 +28,8 @@ jobs:
         run: |
           Install-Module -Name AWSPowerShell -Force -AllowClobber
           Import-Module -Name AWSPowerShell
+          Install-Module -Name AWSSDK.CloudWatch -Force -AllowClobber
+          Import-Module -Name AWSSDK.CloudWatch
           npm install -g openapi-to-postmanv2
 
           # Add more commands to install other dependencies specific to your project
