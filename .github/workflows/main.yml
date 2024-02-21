@@ -56,4 +56,4 @@ jobs:
       - name: Run PowerShell script
         run: |
           # Run your PowerShell script
-          AWS-APILIFECYCLE2.ps1
+          .\AWS-APILIFECYCLE2.ps1
