@@ -28,6 +28,8 @@ jobs:
         run: |
           Install-Module -Name AWS.Tools.Common -Force -AllowClobber
           Import-Module -Name AWS.Tools.Common
+          npm install -g @stoplight/spectral
+          npm install -g openapi-to-postmanv2
 
           # Add more commands to install other dependencies specific to your project
 
