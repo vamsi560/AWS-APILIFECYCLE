@@ -1,3 +1,6 @@
+# Set execution policy to Bypass
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
 # AWS credentials and region
 $awsAccessKey = "AKIA4MTWJOP5BEITHBVV"
 $awsSecretKey = "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"
