@@ -28,8 +28,6 @@ jobs:
         run: |
           Install-Module -Name AWS.Tools.Common -Force -AllowClobber
           Import-Module -Name AWS.Tools.Common
-          Install-Module -Name AWSPowerShell.NetCore -Force -AllowClobber
-          Import-Module -Name AWSPowerShell.NetCore
 
           # Add more commands to install other dependencies specific to your project
 
