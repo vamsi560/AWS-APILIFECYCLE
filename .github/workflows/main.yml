@@ -26,7 +26,7 @@ jobs:
 
       - name: Installing Dependencies
         run: |
-          Install-Module -Name AWS.Tools.Installer -Force -AllowClobber
+          Install-Module -Name AWS.Tools.Common -Force -AllowClobber
           Install-AWSTools
 
           # Add more commands to install other dependencies specific to your project
