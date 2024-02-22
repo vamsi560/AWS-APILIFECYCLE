@@ -21,7 +21,7 @@ $lambdaFunctionArn = $configMap["LambdaFunctionArn"]
 $oasFilePath = "$env:GITHUB_WORKSPACE\openapi.yaml"
 
 # Import API from OpenAPI definition
-$importApiCommand = "aws apigateway import-rest-api --no-fail-on-warnings --cli-binary-format raw-in-base64-out --body fileb://C:/Users/VMADMIN/POC/star-trek.yaml"
+$importApiCommand = "aws apigateway import-rest-api --no-fail-on-warnings --cli-binary-format raw-in-base64-out --body fileb://openapi.yaml"
 $importApiResult = Invoke-Expression $importApiCommand | ConvertFrom-Json
 $apiId = $importApiResult.id
 $apiName = $importApiResult.name
