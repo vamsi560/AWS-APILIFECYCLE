@@ -1,0 +1,9 @@
+AwsAccessKey=AKIA4MTWJOP5BEITHBVV
+AwsSecretKey=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
+AwsRegion=us-east-1
+LambdaFunctionArn=arn:aws:lambda:us-east-1:851725349882:function:dev-portal-DevPortalLambdaFunction-LIKU32SglT3s
+ApiKey=72KjYUm1DZ3vBFBpHy5M73D0QBdYQqfW3qWcAMIG
+StageName=Development
+UsagePlanName=devportal
+AlarmName=MyApiLatencyAlarm
+
