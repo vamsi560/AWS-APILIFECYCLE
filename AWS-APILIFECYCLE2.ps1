@@ -122,7 +122,7 @@ $apiNameDimension.Value = $apiName  # Replace with the actual API name
 $dimensions += $apiNameDimension
 
 # Enable metric
-$alarmActionArn = "arn:aws:sns:us-east-1:851725349882:API"  # Replace with your SNS topic ARN
+$alarmActionArn = "arn:aws:sns:us-east-1:319724519105:API-lifecycle"  # Replace with your SNS topic ARN
 Write-CWMetricAlarm -AlarmName $configMap["AlarmName"] -MetricName $metricName -Namespace $namespace -Dimensions $dimensions -Statistic Average -Period 300 -Threshold 200 -ComparisonOperator GreaterThanThreshold -EvaluationPeriods 2 -AlarmActions $alarmActionArn -AlarmDescription 'High API latency detected'
 
 Write-Host "API created successfully with ID: $apiId"
