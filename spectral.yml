@@ -1,0 +1,25 @@
+extends:
+  - spectral:oas
+
+formats:
+  - oas3
+
+rules:
+  # Check that operation IDs are in camelCase
+  operation-id-camel-case:
+    given: "$.paths.*.*.operationId"
+    message: "Operation IDs should be in camelCase"
+    severity: 3 # Use "3" for "error"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-zA-Z0-9]*$"
+
+  # Check that all paths have descriptions
+  paths-have-descriptions:
+    given: "$.paths.*"
+    message: "Paths should have descriptions"
+    severity: 2 # Use "2" for "warning"
+    then:
+      field: description
+      function: truthy
