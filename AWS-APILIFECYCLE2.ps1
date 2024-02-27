@@ -2,24 +2,15 @@
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 # Define the path to your configuration file
 $configFilePath = Join-Path $env:GITHUB_WORKSPACE "config.properties"
-$policiesFilePath = Join-Path $env:GITHUB_WORKSPACE "policies.properties"
 
 # Load content from the configuration file
 $configContent = Get-Content -Path $configFilePath
-$policiesContent = Get-Content -Path $policiesFilePath
 
-# Convert the content to hashtables
+# Convert the content to a hashtable
 $configMap = @{}
-$policiesMap = @{}
-
 foreach ($line in $configContent -split "`n") {
     $key, $value = $line -split '='
     $configMap[$key] = $value
-}
-
-foreach ($line in $policiesContent -split "`n") {
-    $key, $value = $line -split '='
-    $policiesMap[$key] = $value
 }
 
 # AWS credentials and region
@@ -27,6 +18,7 @@ $awsAccessKey = $configMap["AwsAccessKey"]
 $awsSecretKey = $configMap["AwsSecretKey"]
 $awsSessionToken = $configMap["AwsSessionToken"]
 $awsRegion = $configMap["AwsRegion"]
+$lambdaFunctionArn = $configMap["LambdaFunctionArn"]
 $oasFilePath = "$env:GITHUB_WORKSPACE\openapi.yaml"
 
 # Import API from OpenAPI definition
@@ -143,7 +135,7 @@ $dimensions += $apiNameDimension
 
 # Enable metric
 $alarmActionArn = "arn:aws:sns:us-east-1:319724519105:API-lifecycle"  # Replace with your SNS topic ARN
-Write-CWMetricAlarm -AlarmName $policiesMap["AlarmName"] -MetricName $metricName -Namespace $namespace -Dimensions $dimensions -Statistic Average -Period 300 -Threshold 200 -ComparisonOperator GreaterThanThreshold -EvaluationPeriods 2 -AlarmActions $alarmActionArn -AlarmDescription 'High API latency detected'
+Write-CWMetricAlarm -AlarmName $configMap["AlarmName"] -MetricName $metricName -Namespace $namespace -Dimensions $dimensions -Statistic Average -Period 300 -Threshold 200 -ComparisonOperator GreaterThanThreshold -EvaluationPeriods 2 -AlarmActions $alarmActionArn -AlarmDescription 'High API latency detected'
 
 Write-Host "API created successfully with ID: $apiId"
 Write-Host "API Key used: $apiKey"
