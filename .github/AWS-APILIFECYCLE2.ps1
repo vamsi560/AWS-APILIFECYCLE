@@ -22,6 +22,17 @@ foreach ($line in $policiesContent -split "`n") {
     $policiesMap[$key] = $value
 }
 
+# AWS credentials and region
+$awsAccessKey = $configMap["AwsAccessKey"]
+$awsSecretKey = $configMap["AwsSecretKey"]
+$awsSessionToken = $configMap["AwsSessionToken"]
+$awsRegion = $configMap["AwsRegion"]
+
+# Configure AWS CLI with credentials and region
+aws configure set aws_access_key_id $awsAccessKey
+aws configure set aws_secret_access_key $awsSecretKey
+aws configure set aws_session_token $awsSessionToken
+aws configure set default.region $awsRegion
 $oasFilePath = "$env:GITHUB_WORKSPACE\openapi.yaml"
 
 # Import API from OpenAPI definition
