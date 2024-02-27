@@ -33,7 +33,7 @@ jobs:
 
       - name: Generate Postman collection from OpenAPI file
         run: |
-          openapi2postmanv2 -s .github/openapi.yaml -o .github/postman_collection.json
+          openapi2postmanv2 -s openapi.yaml -o postman_collection.json
           
       - name: Commit Postman collection to GitHub repository
         run: |
@@ -61,7 +61,6 @@ jobs:
       - name: Run PowerShell script
         run: |
           # Run your PowerShell script
-          Set-Location -Path .github
           Import-Module -Name AWSPowerShell
           .\AWS-APILIFECYCLE2.ps1
         env:
