@@ -16,6 +16,7 @@ foreach ($line in $configContent -split "`n") {
 # AWS credentials and region
 $awsAccessKey = $configMap["AwsAccessKey"]
 $awsSecretKey = $configMap["AwsSecretKey"]
+$awsSessionToken = $configMap["AwsSessionToken"]
 $awsRegion = $configMap["AwsRegion"]
 $lambdaFunctionArn = $configMap["LambdaFunctionArn"]
 $oasFilePath = "$env:GITHUB_WORKSPACE\openapi.yaml"
@@ -107,6 +108,17 @@ $existingUsagePlanId = (aws apigateway get-usage-plans --query "items[?name=='$e
 # Deploy API to Stage
 $deployStageCommand = "aws apigateway create-deployment --rest-api-id $apiId --stage-name $stageName"
 Invoke-Expression $deployStageCommand
+# Set the authorizer name and other parameters
+$authorizerName = 'First_Token_Custom_Authorizer'
+$authorizerType = 'TOKEN'
+$lambdaFunctionName = 'APi-Lifecycle'
+$authorizerUri = "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:319724519105:function:$lambdaFunctionName/invocations"
+$identitySource = 'method.request.header.Authorization'
+$authorizerTtlInSeconds = 300
+
+# Create the authorizer for the imported API
+$createAuthorizerCommand = "aws apigateway create-authorizer --rest-api-id $apiId --name '$authorizerName' --type $authorizerType --authorizer-uri '$authorizerUri' --identity-source '$identitySource' --authorizer-result-ttl-in-seconds $authorizerTtlInSeconds"
+Invoke-Expression $createAuthorizerCommand
 
 # Enable CloudWatch metrics for your API stage
 $metricName = "Latency"
