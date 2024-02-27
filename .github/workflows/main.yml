@@ -50,7 +50,7 @@ jobs:
           npm install -g @stoplight/spectral
 
           # Run Spectral
-          spectral lint --ruleset .github/spectral.yml openapi.yaml
+          spectral lint --ruleset spectral.yml openapi.yaml
       - name: Configure AWS CLI
         run: |
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY }}
